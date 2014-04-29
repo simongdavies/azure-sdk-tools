@@ -20,25 +20,26 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
     [Cmdlet(
         VerbsCommon.Set,
         VirtualMachineAccessExtensionNoun,
-        DefaultParameterSetName = EnableExtensionParamSetName),
+        DefaultParameterSetName = RepairRDPParamSetName),
     OutputType(
         typeof(IPersistentVM))]
     public class SetAzureVMAccessExtensionCommand : VirtualMachineAccessExtensionCmdletBase
     {
-        public const string EnableExtensionParamSetName = "EnableAccessExtension";
+        public const string RepairRDPParamSetName = "RepairRDP";
+        public const string UpdateUserPasswordParamSetName = "UpdateUserOrPassword";
         public const string DisableExtensionParamSetName = "DisableAccessExtension";
 
         [Parameter(
-            ParameterSetName = EnableExtensionParamSetName,
-            Mandatory = false,
+            ParameterSetName = UpdateUserPasswordParamSetName,
+            Mandatory = true,
             Position = 1,
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "New or Existing User Name")]
         public override string UserName { get; set; }
 
         [Parameter(
-            ParameterSetName = EnableExtensionParamSetName,
-            Mandatory = false,
+            ParameterSetName = UpdateUserPasswordParamSetName,
+            Mandatory = true,
             Position = 2,
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "New or Existing User Password")]
@@ -52,8 +53,13 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
             HelpMessage = "Disable VM Access Extension")]
         public override SwitchParameter Disable { get; set; }
 
+         [Parameter(
+            ParameterSetName = RepairRDPParamSetName,
+            Position = 1,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The Extension Reference Name.")]
         [Parameter(
-            ParameterSetName = EnableExtensionParamSetName,
+            ParameterSetName = UpdateUserPasswordParamSetName,
             Position = 3,
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "The Extension Reference Name.")]
@@ -66,7 +72,12 @@ namespace Microsoft.WindowsAzure.Commands.ServiceManagement.IaaS.Extensions
         public override string ReferenceName { get; set; }
 
         [Parameter(
-            ParameterSetName = EnableExtensionParamSetName,
+            ParameterSetName = RepairRDPParamSetName,
+            Position = 2,
+            ValueFromPipelineByPropertyName = true,
+            HelpMessage = "The Extension Version.")]
+        [Parameter(
+            ParameterSetName = UpdateUserPasswordParamSetName,
             Position = 4,
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "The Extension Version.")]
